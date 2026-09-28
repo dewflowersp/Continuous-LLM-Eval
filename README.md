@@ -43,6 +43,8 @@ DEMO_PORT=8503 ./run.sh
 
 ## How to use
 
+For a full walkthrough of every sidebar control, see [USAGE.md](USAGE.md).
+
 ### Modes
 
 | Mode | Needs Ollama? | What it does |
