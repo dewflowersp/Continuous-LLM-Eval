@@ -1,0 +1,24 @@
+# Demo dependencies.
+#
+# Streamlit is the UI. Everything else supports the vendored scoring modules
+# under monitorlab/vendor/ (spaCy NER, networkx metrics, framing/drift).
+#
+# Deliberately absent:
+#   torch / transformers / bert-score -- unused by this demo.
+#   sqlalchemy / psycopg2 / reflex -- unused by this demo.
+#   aiohttp -- its absence forces KGClient down its synchronous DBpedia path.
+#       That path is thread-safe and uses a stable on-disk cache key
+#       ("sync:" + url), so entries warmed by scripts/warm_cache.py are the ones
+#       read at runtime. Installing aiohttp would switch some lookups to
+#       "async:" keys and silently miss the warmed entries.
+
+spacy>=3.7.0
+networkx>=3.0
+scikit-learn>=1.4.0
+vaderSentiment>=3.3.2
+pandas>=2.0.0
+plotly>=5.0.0
+python-dotenv>=1.0.0
+
+# Needs >=1.50 for the `width="stretch"` element API used in app.py.
+streamlit>=1.50

@@ -1,0 +1,61 @@
+{
+  "_comment": [
+    "Preset texts for the tutorial. The demo does NOT load ../../news.json at",
+    "runtime — these are hand-picked paragraphs adapted from that feed so each",
+    "preset makes one metric move in a way the room can see. Re-sync them when",
+    "news.json is refreshed.",
+    "",
+    "Roles: 'grounded' uses real places/institutions DBpedia can corroborate;",
+    "'corrupted' is the same shape with invented names; 'ambiguous' is",
+    "underspecified on purpose; 'charged' is contested (critics vs supporters)",
+    "without party politics; 'neutral_sport' is low-stakes and entity-dense.",
+    "",
+    "'expect' is what should happen when you run it. Absolute levels depend on",
+    "the model; what matters is the shape of the change versus baseline."
+  ],
+  "samples": [
+    {
+      "id": "grounded",
+      "label": "Grounded - real entities, clear relations",
+      "targets": "hallucination (high), robustness (high)",
+      "expect": "Grounding settles relatively high and stays stable enough for the adaptive band to converge. This is the baseline the other presets are compared against, so run it first. Ethiopia, Djibouti and related place names should be findable in DBpedia.",
+      "teaching_note": "Adapted from the BBC story on a $660m Ethiopia–Djibouti fuel pipeline. Every proper noun here has a DBpedia page, so the rule_definition leg of the grounding metric can actually verify them. Point out that a high score is a claim about corroboration, not about truth.",
+      "source": "https://bbc.com/news/articles/c6z9z7lv41wgo",
+      "text": "Africa's richest man is helping to fund a $660 million fuel pipeline between Ethiopia and Djibouti. The pipeline is intended to strengthen energy security in landlocked Ethiopia while creating jobs at Djibouti's port. Officials said the link would reduce Ethiopia's reliance on road tanker deliveries across the Horn of Africa."
+    },
+    {
+      "id": "corrupted",
+      "label": "Fabricated - same shape, invented entities",
+      "targets": "hallucination (low)",
+      "expect": "Grounding collapses toward zero while robustness stays in a similar band to 'grounded'. DBpedia returns no types for any of these invented names, and spaCy often mislabels them, so both legs of the grounding metric fail at once.",
+      "teaching_note": "Same narrative shape as 'grounded', with every proper noun replaced by an invention. The model still emits confident, schema-conformant triples — which is why robustness barely moves while grounding collapses, and why one composite score would hide the failure.",
+      "text": "The richest merchant of Zanvia is helping to fund a $660 million fuel pipeline between Ashmoor and the Korlath Federation. The pipeline is intended to strengthen energy security in landlocked Ashmoor while creating jobs at Korlath's port of Bryndel. Officials said the link would reduce Ashmoor's reliance on road tanker deliveries across the Vessik Marches."
+    },
+    {
+      "id": "ambiguous",
+      "label": "Ambiguous - underspecified, invites guessing",
+      "targets": "drift (high)",
+      "expect": "Drift climbs well above the 'grounded' baseline: the resamples disagree about who the actors even are. Grounding is also low, but for a different reason -- there is little to ground.",
+      "teaching_note": "Deliberately not taken from a concrete headline. Use this to separate two failure modes a single average would conflate: the model is not wrong so much as unsure. Open the drill-down and show that the stable core of triples is nearly empty while the volatile set is large.",
+      "text": "The agency said the measure would take effect soon, following discussions with several partners in the region. A spokesperson noted that earlier commitments had been revised, and that the affected parties would be notified in due course. Officials declined to say whether the earlier figure still applied."
+    },
+    {
+      "id": "charged",
+      "label": "Contested - framing probe",
+      "targets": "bias (high)",
+      "expect": "Bias rises relative to the neutral sport preset: the same article, asked from different demographic viewpoints, produces a wider spread of sentiment. Useful as the corpus you switch *to* during the framing beat.",
+      "teaching_note": "Adapted from the BBC story on the US backing Elon Musk's challenge to an EU fine against X. Enable Biased framing before running. Show per-group responses: facts stay broadly consistent while warmth and emphasis shift. Clear critics-versus-supporters split without party politics.",
+      "source": "https://bbc.com/news/articles/cq0m373ee0v0o",
+      "text": "The United States has backed Elon Musk's bid to overturn a 120 million euro European Union fine against X. The EU had said X deceives users by selling blue ticks without meaningfully verifying accounts. Supporters of the challenge call the penalty regulatory overreach, while European officials argue large platforms must follow the same consumer rules as everyone else."
+    },
+    {
+      "id": "neutral_sport",
+      "label": "Neutral sport - dense entities, low stakes",
+      "targets": "robustness (high), bias (low)",
+      "expect": "Bias stays near zero -- the 'nothing is wrong' contrast -- and it is the corpus you switch away from during the framing beat. Grounding can still bounce on thin entity support; the drill-down flags that, and it is worth showing.",
+      "teaching_note": "Adapted from the BBC Sport story on Cole Palmer and Thomas Tuchel. A good corpus-swap partner: switching from this to 'charged' mid-stream changes the input without changing the model. Also useful for showing that a metric without its sample size is not a measurement.",
+      "source": "https://bbc.com/sport/football/articles/cm9dww15527lo",
+      "text": "England manager Thomas Tuchel said Chelsea forward Cole Palmer misses too many opportunities to play for England after Palmer pulled out of the latest squad. Palmer remains a key figure for Chelsea in the Premier League. Tuchel urged the attacker to make himself available more consistently for international duty."
+    }
+  ]
+}
