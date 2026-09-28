@@ -2,6 +2,8 @@
 
 Streamlit app that scores a local Ollama model on each step and runs online change detectors over those scores. You can run a live stream against Ollama, or replay a saved recording without a model.
 
+**Docs:** [USAGE.md](USAGE.md) — dashboard controls, live/replay modes, custom text, and troubleshooting.
+
 ## Requirements
 
 - Python **3.10–3.13** (not 3.14; spaCy/thinc has no cp314 wheels)
@@ -43,7 +45,7 @@ DEMO_PORT=8503 ./run.sh
 
 ## How to use
 
-For a full walkthrough of every sidebar control, see [USAGE.md](USAGE.md).
+See **[USAGE.md](USAGE.md)** for the full walkthrough of every sidebar control.
 
 ### Modes
 
@@ -90,6 +92,8 @@ Sample recordings included (25 steps each):
 
 ```
 .
+├── README.md           # this file
+├── USAGE.md            # how to use the dashboard
 ├── app.py              # Streamlit dashboard
 ├── setup.sh / run.sh   # install and launch
 ├── requirements.txt
